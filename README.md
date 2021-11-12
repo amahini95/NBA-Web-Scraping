@@ -1,3 +1,3 @@
-# nba_web_scraping
+# NBA Web Scraping
 
 Gathering GSW stats using Pandas, BeautifulSoup, and RegEx
