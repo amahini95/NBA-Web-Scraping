@@ -1,4 +1,3 @@
-#https://medium.com/analytics-vidhya/web-scraping-nba-data-with-pandas-beautifulsoup-and-regex-pt-2-fa0e4c1a16fa
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
