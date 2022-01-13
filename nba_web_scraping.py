@@ -2,47 +2,10 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 import re
+import argparse
 
-#import seaborn as sns
-#import matplotlib.pyplot as plt
-
-
-#TODO: allow for team url input
-def gsw_player_stats():
-
-    #extract stats for 2021-22 GSW
-    gsw_url = (f'https://www.basketball-reference.com/teams/GSW/2022.html')
-
-    #requests lib sends 'GET' request to url
-    gsw_req = requests.get(gsw_url)
-
-    #parse content of HTML doc with bs4
-    gsw_soup = BeautifulSoup(gsw_req.content, 'lxml')
-
-    #Use .find() to search for tag & attributes for the first game
-    gsw_per_game = gsw_soup.find(name='table', attrs={'id': 'per_game'})
-
-    # Make a list of dicts (dict = player, key = stat category, val = value for cat)
-    gsw_stats = []
-
-    #find all rows with 'tr', exclude the first row since it's the header <thead>
-    #which means we'll start at the <tbody>
-    for row in gsw_per_game.find_all('tr')[1:]:
-
-        player = {}
-        player['Name'] = row.find('a').text.strip()
-        player['Age'] = row.find('td', {'data-stat': 'age'}).text
-        player['Min PG'] = row.find('td', {'data-stat': "mp_per_g"}).text
-        player['FG %'] = row.find('td', {'data-stat': 'fg_per_g'}).text
-        player['Rebounds PG'] = row.find('td', {'data-stat': 'trb_per_g'}).text
-        player['Assists PG'] = row.find('td', {'data-stat': 'ast_per_g'}).text
-        player['Steals PG'] = row.find('td', {'data-stat': 'stl_per_g'}).text
-        player['Blocks PG'] = row.find('td', {'data-stat': 'blk_per_g'}).text
-        player['TO PG'] = row.find('td', {'data-stat': 'tov_per_g'}).text
-        player['PPG'] = row.find('td', {'data-stat': 'pts_per_g'}).text
-        gsw_stats.append(player)
-
-    return pd.DataFrame(gsw_stats)
+from nbawebscraper.player_stats import player_stats
+from nbawebscraper.player_twitter import get_twitter
 
 
 def get_gsw_twitter():
@@ -342,14 +305,22 @@ def obj_to_num(nba_df):
     print(nba_df.dtypes)
 
 
-if __name__ == "__main__":
+def main():
+    """ Main entry point of the app """
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--season', type=int, default=1975)
+    parser.add_argument('--team', type=str, default="GSW")
+    args = parser.parse_args()
+
+    print(player_stats(args.team, args.season))
     '''
     print(get_twitter_handles())
     print(get_h_w_p())
     '''
 
-    all_nba_2022 = all_teams(2022)
-    obj_to_num(all_nba_2022)
+    #all_nba_2022 = all_teams(2022)
+    #obj_to_num(all_nba_2022)
     '''
     gsw_df = get_all_gsw_stats()
     print(gsw_df)
@@ -358,13 +329,12 @@ if __name__ == "__main__":
 
     #print(all_nba_2021[(all_nba_2022['Team'] == 'LAL')
     #                   & (all_nba_2022['FG %'] <= 0.40)])
-
+    '''
     print(
         all_nba_2022.groupby('Team')[['Weight (Lbs)']].sum().sort_values(
             by='Weight (Lbs)', ascending=True).head(10))
     '''
-    print(sns.histplot(all_nba_2022['Min PG'], bins=20))
-    print(
-        plt.title(
-            'Frequency of Minutes Played Per Game in 2021 Across the NBA'))
-    '''
+
+
+if __name__ == "__main__":
+    main()
