@@ -6,8 +6,8 @@ import re
 from nbawebscraper.data_src import setup_data
 
 
-def get_h_w_p(name: str, season: int):
-    """Get NBA player personal info for Golden State Warriors
+def get_personal_info(name: str, season: int):
+    """Get NBA players' personal info for any team and any season
     
     Arguments:
         name {str} -- Name of player
