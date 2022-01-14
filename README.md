@@ -1,3 +1,3 @@
 # NBA Web Scraping
 
-Gathering GSW stats using Pandas, BeautifulSoup, and RegEx
+Gathering NBA stats across any team and any season using Python, Pandas, BeautifulSoup, and RegEx
