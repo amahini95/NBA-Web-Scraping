@@ -7,7 +7,7 @@ from nbawebscraper.data_src import setup_data
 
 
 def get_twitter(name: str, season: int):
-    """Get NBA player stats for Golden State Warriors
+    """Get NBA players' Twitter handles for any team and any season
     
     Arguments:
         name {str} -- Name of player
@@ -51,8 +51,15 @@ def get_twitter(name: str, season: int):
             player['Twitter Handle'] = player_links[1].replace(
                 'https://twitter.com/', '')
 
-        else:
-            player['Twtitter Handle'] = 'No Twitter'
+        #BUG: If at least one player has no Twitter handle, "NaN" is returned
+        #for that player and all other who are not on Twitter.
+        #Potentially esolve this by returning "No Twitter" instead.
+        #However, at the moment doing so results in creation of an
+        # additional column (which is currently what happens when
+        # trying to address this "No Twitter" scenario)
+
+        #else:
+        #    player['Twitter Handle'] = 'No Twitter'
 
         twitter_handles.append(player)
 

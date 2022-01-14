@@ -7,7 +7,7 @@ from nbawebscraper.data_src import setup_data
 
 
 def player_stats(name: str, season: int):
-    """Get NBA player stats for Golden State Warriors
+    """Get NBA game stats for any team and any season
     
     Arguments:
         name {str} -- Name of player
@@ -21,9 +21,10 @@ def player_stats(name: str, season: int):
 
     # Make a list of dicts (dict = player, key = stat category, val = value for cat)
     stats = []
-
-    #find all rows with 'tr', exclude the first row since it's the header <thead>
-    #which means we'll start at the <tbody>
+    '''
+    find all rows with 'tr', exclude the first row since it's the header <thead>
+    which means we'll start at the <tbody>
+    '''
     #import pdb
     #pdb.set_trace()
     for row in per_game.find_all('tr')[1:]:

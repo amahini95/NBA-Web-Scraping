@@ -6,115 +6,7 @@ import argparse
 
 from nbawebscraper.player_stats import player_stats
 from nbawebscraper.player_twitter import get_twitter
-
-
-def get_gsw_twitter():
-
-    #extract stats for 2021-22 GSW
-    gsw_url = (f'https://www.basketball-reference.com/teams/GSW/2022.html')
-
-    #requests lib sends 'GET' request to url
-    gsw_req = requests.get(gsw_url)
-
-    #parse content of HTML doc with bs4
-    gsw_soup = BeautifulSoup(gsw_req.content, 'lxml')
-
-    #Use .find() to search for tag & attributes for the first game
-    gsw_per_game = gsw_soup.find(name='table', attrs={'id': 'per_game'})
-
-    #Loop through players, make a list of dicts again
-    #This time, retrieve Twitter handle
-    twitter_handles = []
-
-    for row in gsw_per_game.find_all('tr')[1:]:
-
-        player = {}
-        #Grab row's first hyperlink (player's url ending)
-        #Append it to base url in order to get players' webpage url
-        player_url = ('https://www.basketball-reference.com/' +
-                      row.find('a').attrs['href'])
-
-        #Make a new BS instance of the players' page to narrow it down to the top section
-        player_req = requests.get(player_url)
-        player_soup = BeautifulSoup(player_req.content, 'lxml')
-        player_info = player_soup.find(
-            name='div', attrs={'itemtype': 'https://schema.org/Person'})
-
-        # Adding players' names, to go along with Twitter page
-        player['Name'] = row.find('a').text.strip()
-
-        #Making a list of hyperlinks from player_info
-        player_links = []
-        for link in player_info.find_all('a'):
-            player_links.append(link.get('href'))
-
-        #if a player is on Twitter, the link is second in player_links
-        #else, it's listed as "No Twitter"
-        if 'twitter' in player_links[1]:
-            player['Twitter Handle'] = player_links[1].replace(
-                'https://twitter.com/', '')
-
-        else:
-            player['Twtitter Handle'] = 'No Twitter'
-
-        twitter_handles.append(player)
-
-    return pd.DataFrame(twitter_handles)
-
-
-def get_h_w_p():
-
-    #extract stats for 2021-22 GSW
-    gsw_url = (f'https://www.basketball-reference.com/teams/GSW/2022.html')
-
-    #requests lib sends 'GET' request to url
-    gsw_req = requests.get(gsw_url)
-
-    #parse content of HTML doc with bs4
-    gsw_soup = BeautifulSoup(gsw_req.content, 'lxml')
-
-    #Use .find() to search for tag & attributes for the first game
-    gsw_per_game = gsw_soup.find(name='table', attrs={'id': 'per_game'})
-    #Get heigh, weight and position
-    height_weight_position = []
-
-    for row in gsw_per_game.find_all('tr')[1:]:
-
-        player = {}
-        #Grab row's first hyperlink (player's url ending)
-        #Append it to base url in order to get players' webpage url
-        player_url = ('https://www.basketball-reference.com/' +
-                      row.find('a').attrs['href'])
-
-        #Make a new BS instance of the players' page to narrow it down to the top section
-        player_req = requests.get(player_url)
-        player_soup = BeautifulSoup(player_req.content, 'lxml')
-        player_info = player_soup.find(
-            name='div', attrs={'itemtype': 'https://schema.org/Person'})
-
-        # Adding players' names, to go along with new stats
-        player['Name'] = row.find('a').text.strip()
-        '''
-        Use RegEx to get heigh, weight, position from all players' own url's
-        '(.*)' in RegEx lets us take text from 2 known substrings (think boundaries),
-        where the substrings are placed on either side of '(.*)'
-        '''
-        #Makes a string of all the paragraph 'p' text from "player_info",
-        #Which means s has all the weight, height, position info
-        s = str(player_info.find_all('p'))
-        weight = re.search('\"weight\">(.*)lb</span>', s)
-        height = re.search('\"height\">(.*)</span>,\xa0<span itemprop="weight',
-                           s)
-        position = re.search('Position:\n  </strong>\n (.*)\n\n', s)
-
-        player['Weight (Lbs)'] = weight.group(1).strip()
-        player['Height'] = height.group(1).strip()
-        player['Position'] = position.group(1).strip()
-        #print(position.group(1))
-
-        height_weight_position.append(player)
-
-    return pd.DataFrame(height_weight_position)
+from nbawebscraper.player_personal import get_h_w_p
 
 
 def get_all_gsw_stats():
@@ -313,11 +205,9 @@ def main():
     parser.add_argument('--team', type=str, default="GSW")
     args = parser.parse_args()
 
-    print(player_stats(args.team, args.season))
-    '''
-    print(get_twitter_handles())
-    print(get_h_w_p())
-    '''
+    #print(player_stats(args.team, args.season))
+    #print(get_twitter(args.team, args.season))
+    #print(get_h_w_p(args.team, args.season))
 
     #all_nba_2022 = all_teams(2022)
     #obj_to_num(all_nba_2022)
