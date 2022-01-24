@@ -2,7 +2,7 @@
 
 Gathering NBA stats across any team and any season using Python, Pandas, BeautifulSoup, and RegEx
 
-To run code
+# To run code
 
 Go to the project's root directory, run the following command
 
@@ -17,5 +17,7 @@ Where command is one of the following:
 Running the command
 
 python3 main.py [command]
+
+where [command] is any command *except for all*
 
 will, by default, return the corresponding stats/info for the Golden State Warriors' 2021-2022 NBA regular season
