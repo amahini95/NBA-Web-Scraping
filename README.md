@@ -6,7 +6,7 @@ Gathering NBA stats across any team and any season using Python, Pandas, Beautif
 
 Go to the project's root directory, run the following command
 
-python3 main.py [command] --season [year as an int in YYYY format] --team [team abbreviation in 3 capitals chars]
+*python3 main.py [command] --season [year as an int in YYYY format] --team [team abbreviation in 3 capitals chars]*
     
 Where command is one of the following:
 1. all: Retrieves all stats/player info across all teams in one season
@@ -16,7 +16,7 @@ Where command is one of the following:
 
 Running the command
 
-python3 main.py [command]
+*python3 main.py [command]*
 
 where [command] is any command *except for all*
 
