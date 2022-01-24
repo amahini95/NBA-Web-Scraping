@@ -3,7 +3,7 @@
 Gathering NBA stats across any team and any season using Python, Pandas, BeautifulSoup, and RegEx
 
 To run code
-From the project's root directory, run the following command
+Go to the project's root directory, run the following command
 
 python3 main.py [command] --season [year as an int in YYYY format] --team[team abbreviation in 3 capitals chars]
     
