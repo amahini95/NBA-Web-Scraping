@@ -20,6 +20,8 @@ def all_stats(season):
 
     #make a list of url endings for all NBA team's websites
     teams = []
+    #each team is in an "option" tag
+    #the URL ending that we want is in the "value" attribute
     for option in pick_team.find_all('option')[1:31]:
         name = option.get('value')
         teams.append(name)

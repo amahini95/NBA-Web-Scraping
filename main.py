@@ -3,7 +3,6 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import re
 import argparse
-
 from nbawebscraper.all_stats import all_stats
 from nbawebscraper.player_stats import player_stats
 from nbawebscraper.player_twitter import get_twitter

@@ -12,10 +12,10 @@ def get_soup(path="/") -> Optional[bs]:
     url = BASE_URL + path
 
     try:
-        #requests lib sends 'GET' request to url
+        #requests lib sends 'GET' request to url, allowing us to get data from 'url'
         req = requests.get(url)
 
-        #parse content of HTML doc with bs4
+        #Use BS to parse content of HTML doc with bs4, restructuring it so we can run more commands on it later
         soup = bs(req.content, 'lxml')
 
         return soup
@@ -35,7 +35,7 @@ def setup_data(name: str, season: int):
 
     soup = get_soup(f"/teams/{name.upper()}/{season}.html")
 
-    #Use .find() to search for tag & attributes for the first game
+    #Use .find() to search for 'table' tag & id attribute of 'per_game' for the first game
     per_game = soup.find(name='table', attrs={'id': 'per_game'})
 
     return per_game

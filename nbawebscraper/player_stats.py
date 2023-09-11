@@ -19,14 +19,15 @@ def player_stats(name: str, season: int):
     if per_game is None:
         return None
 
-    # Make a list of dicts (dict = player, key = stat category, val = value for cat)
+    # Make a list of dicts (each dict = 1 player, key = stat category, val = value for cat),
+    # serves as the pandas dataframe returned at the end
     stats = []
     '''
-    find all rows with 'tr', exclude the first row since it's the header <thead>
-    which means we'll start at the <tbody>
+    Each player's stats are found row by row in 'per_game' table, 
+    so find all rows with 'tr'.
+    Exclude the first row since it's the header title <thead>,
+    which means we'll start at <tbody>
     '''
-    #import pdb
-    #pdb.set_trace()
     for row in per_game.find_all('tr')[1:]:
 
         player = {}
@@ -42,4 +43,5 @@ def player_stats(name: str, season: int):
         player['PPG'] = row.find('td', {'data-stat': 'pts_per_g'}).text
         stats.append(player)
 
+    #finally convert list of dicts to a pandas dataframe
     return pd.DataFrame(stats)
