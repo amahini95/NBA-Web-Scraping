@@ -11,8 +11,8 @@ Go to the project's root directory, run the following command
 Where command is one of the following:
 1. all: Retrieves all stats/player info across all teams in one season
 2. player: Retrieves game stats for one team in one season
-3. twitter: Retrieves one team's players' Twtiter handles
-4. personal: Retrieves one team's players' height, weight and position
+3. twitter: Retrieves one team's players' Twtiter handles (currently being updated)
+4. personal: Retrieves one team's players' height, weight and position (currently being updated)
 
 Running the command
 
